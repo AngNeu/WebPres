@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="de">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - HTML5 File API</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		</head>
+
+	<body >
+
+		<div class="reveal">
+
+			<div class="slides" >
+           
+			<!--	<section data-background="dhbw.jpg"> -->
+				<section>
+					<h2>h1 - h3 Tags</h2><br>
+					<h2>h1- Tag  Klein und Großschreibung äöüß</h1>
+					<h3>h2- Tag  Klein und Großschreibung äöüß</h2>
+					<h4>h3- Tag  Klein und Großschreibung äöüß</h3>
+					<p>Paragraph Text  Klein und Großschreibung äöüß</p>
+					Ohne- Tag  Klein und Grossschreibung äöüß
+					<p>Alles in theme moon</p>
+
+
+				</section>
+
+
+			<section>
+					<h2>HTML5 File API</h2><br><br>
+
+<br>
+					<p>HTML5 stellt extrem leistungsstarke APIs für die Interaktion mit binären Daten und dem lokalen Dateisystem der Nutzer bereit. Die File APIs erlauben es Webanwendungen unter anderem, Dateien (a)synchron zu lesen, beliebige Blobs zu erstellen, Dateien an einen temporären Speicherort zu schreiben, Dateiverzeichnisse rekursiv zu lesen, Dateien per Drag & Drop vom Desktop in den Browser zu verschieben und binäre Daten mithilfe von XMLHttpRequest2 hochzuladen. 
+</p>
+
+				</section>
+
+				<section>
+					<h2>HTML5 File API</h2><br><br>
+
+					<p>Das API lässt sich  unterteilen in:
+						
+							<p>Dateien lesen und bearbeiten </p>
+							<p>Erstellen und schreiben</p>
+							<p>Verzeichnisse und Dateisystemzugriff</p>
+						
+				</section>
+
+				<section>
+					<section id="fragments">
+						<h2>HTML5 File API</h2><br><br>
+
+							<h4>Dateien lesen und bearbeiten:</h4>
+							
+								<ul>
+									<p> <span class="fragment">File/Blob </span><span class="fragment"> - Datei oder Bereich von Rohdaten??? (blob)</span></p> 
+									<p> <span class="fragment">FileList </span><span class="fragment"> -  Dateiliste als Rückgabe des HTML5 input tags</span</p>
+									<p> <span class="fragment">FileReader </span><span class="fragment"> - Objekt zum lesen von Dateien</span</p>
+								</ul>
+							
+					</section>
+					<section>
+						<h2>HTML5 File API</h2><br><br>
+
+							<h4>Erstellen und schreiben:</h4>
+							<div class="fragment">
+							    <ul>
+									<li>BlobBuilder</li> 
+									<li> FileWriter</li>
+								</ul>
+							</div>
+					</section>
+ 					<section>
+						<h2>HTML File API</h2><br><br>
+
+							<h4>Verzeichnisse und Dateisystemzugriff:</h4>
+							<div class="fragment">
+								<ul>
+									<li>DirectoryReader</li> 
+									<li>FileEntry/DirectoryEntry </li>
+									<li>LocalFileSystem</li>
+								</ul>
+							</div>
+					</section>
+				</section>
+
+				
+					<section>   <!-- Slide template simple -->
+						<h2>Header h2</h2>
+
+							<p>Top1</p>
+							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo 
+							ligula eget dolor. Aenean massa. 
+							<p>Top2 </p>
+							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo 
+							ligula eget dolor. Aenean massa. 
+							<p>Top3</p>
+							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+							ligula eget dolor. Aenean massa. 
+					</section>
+				
+				<section>
+					   <!-- Slide template fragment -->
+						<h2>Header h2</h2>
+
+							<p class="fragment">Top1</p>
+							<p class="fragment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo 
+							ligula eget dolor. Aenean massa.</p> 
+							<p class="fragment">Top2 </p>
+							<p class="fragment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo 
+							ligula eget dolor. Aenean massa.</p> 
+							<p class="fragment">Top3</p>
+							<p class="fragment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+							ligula eget dolor. Aenean massa.</p> 
+								
+				</section>
+				
+				<section>
+							<h4>fileReader Demo HTML Part:</h4>
+					<pre><code  data-trim contenteditable>
+  <div id="container">
+
+    <h1>Demo Imagedatei Reader mit HTML5 und Filesystem API</h1>
+    <div>    <!-- hier die Eingabe der Datei mittels <input> -->
+      Bilddatei auswählen: 
+      <input type="file" id="fileInput">
+    </div>
+    <div id="picture_area"></div>  <!-- anschliessend der Bereich zur Bilddarstellung -->
+
+  </div>
+					</code></pre>
+				</section>
+
+
+
+				<section>
+							<h4>fileReader Demo javascript Part:</h4>
+					<pre><code  data-trim contenteditable>
+window.onload = function() {
+
+var fileInput = document.getElementById('fileInput');
+var bildfenster = document.getElementById('picture_area');
+
+
+fileInput.addEventListener('change', function(e) {
+	var file = fileInput.files[0];
+	var imageType = /image.*/;
+
+	if (file.type.match(imageType)) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			bildfenster.innerHTML = "";
+			var img = new Image();
+			img.src = reader.result;
+			bildfenster.appendChild(img);
+		}
+		reader.readAsDataURL(file);	
+	} else {
+		bildfenster.innerHTML = "File not supported!"
+	}
+});
+
+}
+					</code></pre>
+				</section>
+
+
+
+
+
+
+				<section>
+					<h4>filereader Demo:</h4>
+						<p>
+							<a href="FsaDemo.html">Start</a>
+						</p>
+				</section>
+
+
+
+<!
+				</div>		<!--  End of div class slides -->
+
+		</div>				<!--  End of div class reveal -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				history: true,
+				transition: 'linear',
+				dependencies: [
+					{ src: 'lib/js/classList.js' },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

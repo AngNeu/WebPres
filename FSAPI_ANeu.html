@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="de">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - HTML5 File API</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		
+		
+		<style> 
+		li  {
+				text-align: left; }
+		</style>		
+	</head>
+
+	<body >
+
+		<div class="reveal">
+
+			<div class="slides" class="dhbw">
+           <img src="dhbw.png" style="position: absolute; top:0px; right:0px; width:200px; height: 100px;" ... /> 
+			<!--	<section data-background="dhbw.png"> -->
+				
+
+
+			<section>
+			 <img src="dhbw.png" style="position: absolute; top:370px; right:270px; width:400px; height: 150px;" ... />
+			
+					<br><br><br><br><h1>HTML5 File API</h1><br><br><br>
+
+<br>
+					<p>Angelina Neumann   &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp08.09.2015   </p>    
+
+
+				</section>
+
+				<section>
+				
+				
+				<h2> File API </h2>
+				<p>		
+					
+<li> in HTML5 möglich </li>
+<li>Ermöglicht Zugriff auf lokale Dateien und Darstellung selbiger im HTML-Dokument (Dateiauswahl durch User über HTML < input > Tag oder Drag&Drop) </li>
+<li>arbeitet mit Event-Handlern </li> 
+<li>W3C Working Draft</li>
+<li>neuste Version vom 21.04.2015</li> 
+</p>
+						
+				</section>
+				
+				
+				
+				<section> <h2> Verwendung </h2>
+						<p> <li>Zugriff auf lokale Dateien des BS und deren Attribute durch den Browser</li>
+
+<li>Dateien lassen sich vor einem Upload im Browserfenster darstellen und überprüfen (Rechtschreibprüfung etc.)</li>
+
+<li>Ermöglicht Clientseitige Dateioperationen z.B. Limitation der Größe des Uploads, Beschränken der hochzuladenden Dateitypen, Datum der letzten Änderung etc. </li>
+
+<li>Bilder, die hochgeladen werden sollen, können angezeigt werden (Thumbnail etc.)</li>
+
+</p>
+						
+				</section>
+				
+					<section id="fragments">
+
+							<h4>File API Schnittstellen zum Zugriff auf Dateien :</h4>
+							
+								<ul>
+									<p> <span class="fragment"> <b>File</b> </span><span class="fragment"> - Datei-Objekt; Attribute u.a. name, size, lastModified, type</span></p> 
+									<p> <span class="fragment"> <b>FileList</b> </span><span class="fragment"> -  arrayartige Folge von File-Objekten als Rückgabe des HTML < input type="file" > Tags </span</p>
+									<p> <span class="fragment"><b>FileReader</b> </span><span class="fragment"> -  liest eine Datei über JavaScript-Ereignisbehandlung asynchron; Ergebnis entweder als Daten-URL, String oder ArrayBuffer darstellbar</span</p>
+									<p> <span class="fragment"><b>Binary Large Object (Blob)</b> </span><span class="fragment"> - Bytesequenz aus Rohdaten, erlaubt den Zugriff auf Bytebereiche innerhalb des Blob Objektes</span</p>
+								</ul>
+							
+					</section>
+				
+				
+				<section> <h2> Code Beispiel</h2>
+							<h4>FileReader Demo HTML Part:</h4>
+					<pre><code  data-trim contenteditable>
+  <div id="container">
+
+    <h1>Demo img mit HTML5 und File API im Browser anzeigen</h1>
+    <div>    <!-- Auswahl der Datei über Listenansicht  -->
+      Bilddatei auswählen: 
+      <input type="file" id="fileInput">
+    </div>
+    <div id="picture_area"></div>  
+
+  </div>
+					</code></pre>
+				</section>
+
+
+
+				<section>
+				
+
+				
+							<h4>FileReader Demo JavaScript Part:</h4>
+					<pre><code  data-trim contenteditable class="stretch"> 
+window.onload = function() {
+
+var fileInput = document.getElementById('fileInput');
+var bildfenster = document.getElementById('picture_area');
+
+
+fileInput.addEventListener('change', function(e) {
+	var file = fileInput.files[0];
+	var imageType = /image.*/;
+
+	if (file.type.match(imageType)) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			bildfenster.innerHTML = "";
+			var img = new Image();
+			img.src = reader.result;
+			bildfenster.appendChild(img);
+		}
+		reader.readAsDataURL(file);	
+	} else {
+		bildfenster.innerHTML = "File not supported!"
+	}
+});
+
+}
+					</code></pre>
+				</section>
+
+
+
+
+
+
+				<section>
+				<style> #container {
+
+  background: #FFF;
+  position: relative;
+  top: 20px;
+  margin:  auto;
+  border: 5px solid #999;
+  width: 60%; 
+  padding: 10px;
+
+}
+
+
+body {
+overflow:auto; 
+margin:0px;
+padding:0px;
+}
+
+h1 {
+	text-align: center; margin-top: 0;
+}
+
+img {
+	
+  max-width: 100%;
+  height: auto;
+}
+
+#picture_area {
+
+  margin: auto;
+  width: 80%;
+  height: 400px;
+
+} 
+
+</style>
+					<h3>FileReader Demo:</h3>
+					
+						
+							
+							<div id="container">
+
+    
+    <div>    <!-- hier die Eingabe der Datei mittels <input> -->
+      Bilddatei auswählen: 
+      <input type="file" id="fileInput">
+    </div>
+    <div id="picture_area"></div>  <!-- anschliessend der Bereich zur Bilddarstellung -->
+
+  </div>
+						<script>
+  window.onload = function() {  
+
+		var fileInput = document.getElementById('fileInput'); // Variable fileInput ist die Referenz auf das Objekt id="fileInput" aus dem HTML Code
+		var bildfenster = document.getElementById('picture_area'); //Variable bildfenster ist die Referenz auf das Objekt id="bildfenster" aus dem HTML Code
+
+
+		fileInput.addEventListener('change', function(e) {  // wird aktiv wenn eine Datei ausgeählt wurde (change) und 
+			var file = fileInput.files[0];  // und füllt die Variablen
+			var imageType = /image.*/;
+
+			if (file.type.match(imageType)) { // Methode prüft ob Bilddatei vorliegt
+				var reader = new FileReader();  // erzegt neuese FileReader Objekt
+
+				reader.onload = function(e) {
+					bildfenster.innerHTML = ""; // setzt den Typ dieses Bereichs
+
+					var img = new Image();
+					img.src = reader.result; // Inhalt aus Bilddatei
+
+					bildfenster.appendChild(img); // lädt img in das entspr. 'div' Element (picture_area)
+				}
+
+				reader.readAsDataURL(file);	// Methode liest den Inhalt aus file
+			} else {
+				bildfenster.innerHTML = "File not supported!"  // war keine Bilddatei
+			}
+		});
+
+}
+</script>
+						</p>
+						
+				</section>
+
+<section>
+				
+				<h2> Quellen </h2>
+				<p>		<li>www.w3.org/TR/FileAPI/ </li>
+				<li>https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications</li>
+				<li>https://developer.mozilla.org/de/docs/Web/API/File</li>
+				<li>https://developer.mozilla.org/de/docs/Web/API/FileReader</li>
+				<li>www.scotch.io </li>
+				<li>blog.teamtreehouse.com</li>
+				
+
+</p>
+						
+				</section>
+
+
+
+
+
+<!
+				</div>		<!--  End of div class slides -->
+
+		</div>				<!--  End of div class reveal -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				history: true,
+				transition: 'fade',
+				dependencies: [
+					{ src: 'lib/js/classList.js' },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
